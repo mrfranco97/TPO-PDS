@@ -1,47 +1,23 @@
 package com.francomartin.find_your_guide.models;
 
-import jakarta.persistence.Entity;
-import lombok.*;
-import org.springframework.security.core.GrantedAuthority;
+import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.experimental.SuperBuilder;
 
-import java.util.Collection;
-
-
-
-@NoArgsConstructor
 @AllArgsConstructor
+@NoArgsConstructor
+@SuperBuilder
 @Entity
+@Getter
+@Setter
+@Table(name = "turistas")
 public class Turista extends Usuario {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+    private String trofeo;
 
-
-
-    @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        return null;
-    }
-
-    @Override
-    public String getUsername() {
-        return null;
-    }
-
-    @Override
-    public boolean isAccountNonExpired() {
-        return super.isAccountNonExpired();
-    }
-
-    @Override
-    public boolean isAccountNonLocked() {
-        return super.isAccountNonLocked();
-    }
-
-    @Override
-    public boolean isCredentialsNonExpired() {
-        return super.isCredentialsNonExpired();
-    }
-
-    @Override
-    public boolean isEnabled() {
-        return super.isEnabled();
-    }
 }

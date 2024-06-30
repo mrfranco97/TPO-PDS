@@ -1,45 +1,36 @@
 package com.francomartin.find_your_guide.models;
 
-import jakarta.persistence.Entity;
-import lombok.*;
-import org.springframework.security.core.GrantedAuthority;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.experimental.SuperBuilder;
 
-import java.util.Collection;
+import java.util.List;
 
-@Data
-@Builder
-@NoArgsConstructor
-@Getter
+
+@SuperBuilder
 @AllArgsConstructor
 @Entity
-public class Guia extends Usuario  {
-    @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        return null;
-    }
+@Table(name = "guias")
+@Getter
+@Setter
+public class Guia extends Usuario {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
-    @Override
-    public String getUsername() {
-        return null;
-    }
+    private String licencia;
 
-    @Override
-    public boolean isAccountNonExpired() {
-        return super.isAccountNonExpired();
-    }
+    @JsonIgnore
+    @OneToMany
+    private List<Ciudad> ciudades;
 
-    @Override
-    public boolean isAccountNonLocked() {
-        return super.isAccountNonLocked();
-    }
+    private String trofeo;
 
-    @Override
-    public boolean isCredentialsNonExpired() {
-        return super.isCredentialsNonExpired();
-    }
-
-    @Override
-    public boolean isEnabled() {
-        return super.isEnabled();
+    public Guia() {
+        super();
+        //this.agregarTrofeo(new TrofeoExito(1, "Trofeo de Éxito", 4.5));
     }
 }
