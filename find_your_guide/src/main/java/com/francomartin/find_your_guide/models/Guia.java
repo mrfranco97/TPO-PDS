@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.SuperBuilder;
 
@@ -12,6 +13,7 @@ import java.util.List;
 
 @SuperBuilder
 @AllArgsConstructor
+@NoArgsConstructor
 @Entity
 @Table(name = "guias")
 @Getter
@@ -25,12 +27,7 @@ public class Guia extends Usuario {
 
     @JsonIgnore
     @OneToMany
+    @JoinColumn(name = "guia_id")
     private List<Ciudad> ciudades;
 
-    private String trofeo;
-
-    public Guia() {
-        super();
-        //this.agregarTrofeo(new TrofeoExito(1, "Trofeo de Éxito", 4.5));
-    }
 }

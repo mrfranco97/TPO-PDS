@@ -1,6 +1,8 @@
 package com.francomartin.find_your_guide.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.francomartin.find_your_guide.interfaces.IObservable;
+import com.francomartin.find_your_guide.interfaces.Observer;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -8,6 +10,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.SuperBuilder;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -18,7 +21,7 @@ import java.util.List;
 @NoArgsConstructor
 @SuperBuilder
 @Inheritance(strategy = InheritanceType.JOINED)
-public abstract class Usuario {
+public abstract class Usuario implements IObservable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -30,38 +33,40 @@ public abstract class Usuario {
     private String telefono;
     private String fotoperfil;
     private String password;
+    private String trofeo;
 
+    @JsonIgnore
+    @Transient
+    private Observer observer;
 
 
     @JsonIgnore
     @OneToMany(mappedBy = "destinatario", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
-    private List<Calificacion> resenias;
+    private List<Calificacion> reseniasRecibidas = new ArrayList<>();
 
-    @JsonIgnore
-    @Transient
-    private String trofeo;  // Variable para almacenar el nombre del trofeo
+    @OneToMany(mappedBy = "autor", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    private List<Calificacion> reseniasEnviadas = new ArrayList<>();
 
-    public void agregarCalificacion(Calificacion calificacion) {
-        resenias.add(calificacion);
-        System.out.println("Calificación añadida. Total de reseñas: " + resenias.size());
+
+    public void agregarCalificacionRecibida(Calificacion calificacion) {
+        reseniasRecibidas.add(calificacion);
+        System.out.println("Calificación añadida. Total de reseñas Recibidas: " + reseniasRecibidas.size());
+        notificar(this);
     }
 
-    // Getters y Setters
-    public List<Calificacion> getResenias() {
-        return resenias;
+    public void agregarCalificacionEnviada(Calificacion calificacion) {
+        reseniasEnviadas.add(calificacion);
+        System.out.println("Calificación añadida. Total de reseñas Enviadas: " + reseniasEnviadas.size());
+        notificar(this);
     }
 
-    public String getNombre() {
-        return nombre;
-    }
 
-    public void setTrofeo(String trofeo) {
-        this.trofeo = trofeo;
-        System.out.println("Trofeo asignado: " + trofeo);
-    }
-
-    public String getTrofeo() {
-        return trofeo;
+    public  void notificar(Usuario usuario){
+        if(observer == null){
+            observer = new TrofeoObserver();
+        }
+        observer.update(this);
     }
 
 }
+

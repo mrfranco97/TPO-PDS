@@ -1,7 +1,9 @@
 package com.francomartin.find_your_guide.controllers;
 
 
+import com.francomartin.find_your_guide.dtos.GuiaDTO;
 import com.francomartin.find_your_guide.dtos.UsuarioDTO;
+import com.francomartin.find_your_guide.enums.AuthTipo;
 import com.francomartin.find_your_guide.factories.UsuarioFactory;
 import com.francomartin.find_your_guide.interfaces.IAuth;
 import com.francomartin.find_your_guide.models.Guia;
@@ -56,10 +58,21 @@ public class UsuarioController {
         logger.info("Iniciando registro de turista");
 
         // Registrar credenciales de usuario
-        IAuth auth = getAuthProvider(usuarioDTO.getTipoAuth());
+        IAuth auth = getAuthProvider(usuarioDTO.getAuthTipo());
         auth.registrar(usuarioFactory.createUsuario(usuarioDTO));
 
-        return ResponseEntity.ok("Usuario registrado exitosamente");
+        return ResponseEntity.ok("Turista registrado exitosamente");
+    }
+
+    @PostMapping("/registrar/guia")
+    public ResponseEntity<String> registrarUsuario(@RequestBody GuiaDTO usuarioDTO) {
+        logger.info("Iniciando registro de turista");
+
+        // Registrar credenciales de usuario
+        IAuth auth = getAuthProvider(usuarioDTO.getAuthTipo());
+        auth.registrar(usuarioFactory.createUsuario(usuarioDTO));
+
+        return ResponseEntity.ok("Guia registrado exitosamente");
     }
 
     @GetMapping("/guias/all")
@@ -73,21 +86,21 @@ public class UsuarioController {
             return ResponseEntity.ok(guias);
         }
     }
-
+/*
     @PostMapping("/login")
     public ResponseEntity<String> loginUsuario(@RequestBody UsuarioDTO usuarioDTO) {
         logger.info("Iniciando login de usuario");
         IAuth auth = getAuthProvider(usuarioDTO.getTipoAuth());
         auth.login(usuarioDTO);
         return ResponseEntity.ok("Inicio de sesión exitoso");
-    }
+    }*/
 
-    private IAuth getAuthProvider(String tipoAuth) {
-        return switch (tipoAuth.toUpperCase()) {
-            case "FACEBOOK" -> facebookAuth;
-            case "APPLE" -> appleAuth;
-            case "GOOGLE" -> googleAuth;
-            case "EMAIL" -> emailAuth;
+    private IAuth getAuthProvider(AuthTipo tipoAuth) {
+        return switch (tipoAuth) {
+            case FACEBOOK -> facebookAuth;
+            case APPLE -> appleAuth;
+            case GOOGLE -> googleAuth;
+            case EMAIL -> emailAuth;
             default -> throw new IllegalArgumentException("Tipo de autenticación no soportado: " + tipoAuth);
         };
     }

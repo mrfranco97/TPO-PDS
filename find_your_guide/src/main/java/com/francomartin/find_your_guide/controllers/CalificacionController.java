@@ -2,9 +2,12 @@ package com.francomartin.find_your_guide.controllers;
 
 
 import com.francomartin.find_your_guide.dtos.CalificacionDTO;
-import com.francomartin.find_your_guide.dtos.CalificacionFactory;
 import com.francomartin.find_your_guide.models.Calificacion;
-import com.francomartin.find_your_guide.models.Usuario;
+import com.francomartin.find_your_guide.models.Guia;
+import com.francomartin.find_your_guide.models.Turista;
+import com.francomartin.find_your_guide.repositories.CalificacionRepository;
+import com.francomartin.find_your_guide.repositories.GuiaRepository;
+import com.francomartin.find_your_guide.repositories.TuristaRepository;
 import com.francomartin.find_your_guide.repositories.UsuarioRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -23,21 +26,36 @@ public class CalificacionController {
     private static final Logger logger = LoggerFactory.getLogger(CalificacionController.class);
 
     @Autowired
+    private TuristaRepository turistaRepository;
+
+    @Autowired
+    private GuiaRepository guiaRepository;
+
+    @Autowired
     private UsuarioRepository usuarioRepository;
 
     @Autowired
-    private CalificacionFactory calificacionFactory;
+    private CalificacionRepository calificacionRepository;
 
     @PostMapping("/registrar")
     @Transactional
     public ResponseEntity<String> generarCalificacion(@RequestBody CalificacionDTO calificacionDTO) {
-       /* Usuario autor = usuarioRepository.findById(calificacionDTO.getIdAutor())
-                .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
-        Usuario destinatario = usuarioRepository.findById(calificacionDTO.getIdDestinatario())
-                .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
+        Turista autor = turistaRepository.findById(calificacionDTO.getIdAutor())
+                .orElseThrow(() -> new RuntimeException("Turista no encontrado"));
+        Guia destinatario = guiaRepository.findById(calificacionDTO.getIdDestinatario())
+                .orElseThrow(() -> new RuntimeException("Guia no encontrado"));
 
-        Calificacion calificacion = calificacionFactory.createCalificacion(calificacionDTO, autor, destinatario);
-        return ResponseEntity.ok("Calificación generada exitosamente");*/
-        return null;
+        var calificacion= Calificacion.builder()
+                .autor(autor)
+                .destinatario(destinatario)
+                .estrellas(calificacionDTO.getEstrellas())
+                .comentario(calificacionDTO.getComentario())
+                .build();
+        calificacionRepository.save(calificacion);
+        autor.agregarCalificacionRecibida(calificacion);
+        destinatario.agregarCalificacionRecibida(calificacion);
+        usuarioRepository.save(autor);
+        usuarioRepository.save(destinatario);
+        return ResponseEntity.ok("Calificación generada exitosamente");
     }
 }

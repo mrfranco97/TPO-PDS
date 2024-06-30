@@ -1,6 +1,7 @@
 package com.francomartin.find_your_guide.dtos;
 
 
+import com.francomartin.find_your_guide.enums.AuthTipo;
 import lombok.Data;
 
 @Data
@@ -13,5 +14,5 @@ public class UsuarioDTO {
     private String telefono;
     private String fotoperfil;
     private String password;
-    private String tipoAuth; // Puede ser "FACEBOOK", "APPLE", "GOOGLE", "EMAIL"
+    private AuthTipo authTipo;// Puede ser "FACEBOOK", "APPLE", "GOOGLE", "EMAIL"
 }

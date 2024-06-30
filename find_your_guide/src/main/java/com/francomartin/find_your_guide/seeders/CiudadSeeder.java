@@ -28,7 +28,8 @@ public class CiudadSeeder implements CommandLineRunner {
                     new Ciudad(2L, "Madrid", "España"),
                     new Ciudad(3L, "París", "Francia"),
                     new Ciudad(4L, "Londres", "Reino Unido"),
-                    new Ciudad(5L, "Nueva York", "Estados Unidos")
+                    new Ciudad(5L, "Nueva York", "Estados Unidos"),
+                    new Ciudad(6L, "Cordoba", "Argentina")
             );
 
             ciudadRepository.saveAll(ciudades);
