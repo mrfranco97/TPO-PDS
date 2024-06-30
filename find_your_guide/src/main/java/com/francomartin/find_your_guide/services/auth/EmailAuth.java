@@ -15,12 +15,15 @@ public class EmailAuth implements IAuth {
     private UsuarioRepository usuarioRepository;
 
     @Override
-    public boolean registrar(UsuarioDTO datos) {
+    public void registrar(Usuario datos) {
         // Verificar si el email ya está registrado
         if (usuarioRepository.findByEmail(datos.getEmail()).isPresent()) {
             throw new IllegalArgumentException("El email ya está registrado");
         }
-        return true;
+        else{
+            usuarioRepository.save(datos);
+        }
+
     }
 
     @Override

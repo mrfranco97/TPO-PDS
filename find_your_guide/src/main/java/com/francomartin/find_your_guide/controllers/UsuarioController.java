@@ -51,18 +51,13 @@ public class UsuarioController {
     @Autowired
     private EmailAuth emailAuth;
 
-    @PostMapping("/registrar")
+    @PostMapping("/registrar/turista")
     public ResponseEntity<String> registrarUsuario(@RequestBody UsuarioDTO usuarioDTO) {
-        logger.info("Iniciando registro de usuario");
+        logger.info("Iniciando registro de turista");
 
         // Registrar credenciales de usuario
         IAuth auth = getAuthProvider(usuarioDTO.getTipoAuth());
-        auth.registrar(usuarioDTO);
-
-        // Crear el usuario
-        Usuario usuario = usuarioFactory.createUsuario(usuarioDTO);
-        usuarioRepository.save(usuario);
-        logger.info("Usuario guardado con ID: " + usuario.getId());
+        auth.registrar(usuarioFactory.createUsuario(usuarioDTO));
 
         return ResponseEntity.ok("Usuario registrado exitosamente");
     }

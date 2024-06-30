@@ -3,15 +3,15 @@ package com.francomartin.find_your_guide.services.auth;
 
 import com.francomartin.find_your_guide.dtos.UsuarioDTO;
 import com.francomartin.find_your_guide.interfaces.IAuth;
+import com.francomartin.find_your_guide.models.Usuario;
 import org.springframework.stereotype.Component;
 
 @Component
 public class GoogleAuth implements IAuth {
 
     @Override
-    public boolean registrar(UsuarioDTO datos) {
+    public void registrar(Usuario datos) {
         // Lógica específica para registrar usuario con Google
-        return true;
     }
 
     @Override
