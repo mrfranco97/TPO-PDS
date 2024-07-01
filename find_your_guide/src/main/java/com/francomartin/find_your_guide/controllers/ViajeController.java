@@ -2,7 +2,7 @@ package com.francomartin.find_your_guide.controllers;
 
 import com.francomartin.find_your_guide.dtos.ViajeDTO;
 import com.francomartin.find_your_guide.factories.ViajeFactory;
-import com.francomartin.find_your_guide.models.*;
+import com.francomartin.find_your_guide.models.viaje.Viaje;
 import com.francomartin.find_your_guide.repositories.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -33,22 +33,12 @@ public class ViajeController {
     @Autowired
     private ViajeFactory viajeFactory;
 
-    @GetMapping
-    public List<Viaje> getAllViajes() {
-        return viajeRepository.findAll();
-    }
 
-    @GetMapping("/info/{id}")
-    public ResponseEntity<Viaje> getViajeById(@PathVariable Long id) {
-        Optional<Viaje> viaje = viajeRepository.findById(id);
-        return viaje.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
-    }
-/*
     @PostMapping
     public Viaje createViaje(@RequestBody ViajeDTO viaje) {
         Viaje newViaje = viajeFactory.createViaje(viaje);
-        viajeRepository.save(newViaje);
-        return newViaje;
-    }*/
+        //viajeRepository.save(newViaje);
+        return null;
+    }
 
 }

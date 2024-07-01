@@ -1,7 +1,10 @@
-package com.francomartin.find_your_guide.models;
+package com.francomartin.find_your_guide.models.viaje;
 
+import com.francomartin.find_your_guide.models.*;
+import com.francomartin.find_your_guide.models.reserva.Reserva;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -12,6 +15,7 @@ import java.util.Optional;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
 @Entity
 @Table(name = "viajes")
 public class Viaje {
@@ -28,14 +32,6 @@ public class Viaje {
     @JoinColumn(name = "ciudad_id", nullable = false)
     private Ciudad ciudad;
 
-    @OneToOne
-    @JoinColumn(name = "turista_id", nullable = false)
-    private Turista turista;
-
-    @OneToOne
-    @JoinColumn(name = "guia_id", nullable = false)
-    private Guia guia;
-
     @Temporal(TemporalType.DATE)
     @Column(name = "fecha_inicio", nullable = false)
     private Date fechaInicio;
@@ -44,11 +40,10 @@ public class Viaje {
     @Column(name = "fecha_fin", nullable = false)
     private Date fechaFin;
 
-    @Embedded
+    @Transient
     private EstadoViaje estado;
 
-    @ManyToOne
-    @JoinColumn(name = "servicio_id")
+    @OneToOne
     private Servicio servicio;
 
     public void cambiarEstado(String estado) {

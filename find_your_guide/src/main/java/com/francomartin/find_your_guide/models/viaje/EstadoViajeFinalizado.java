@@ -1,13 +1,12 @@
-package com.francomartin.find_your_guide.models;
+package com.francomartin.find_your_guide.models.viaje;
 
+import com.francomartin.find_your_guide.models.Usuario;
 import jakarta.persistence.Embeddable;
+import lombok.NoArgsConstructor;
 
+@NoArgsConstructor
 @Embeddable
-public class EstadoViajePendiente extends EstadoViaje {
-
-    public EstadoViajePendiente(){
-        this.setName("pendiente");
-    }
+public class EstadoViajeFinalizado extends EstadoViaje {
 
     @Override
     public void reservar(Usuario usuario) {
@@ -17,8 +16,6 @@ public class EstadoViajePendiente extends EstadoViaje {
 
     @Override
     public void cancelar(Usuario user) {
-        Viaje viaje = this.getViaje();
-        viaje.cambiarEstado("cancelado");
     }
 
     @Override

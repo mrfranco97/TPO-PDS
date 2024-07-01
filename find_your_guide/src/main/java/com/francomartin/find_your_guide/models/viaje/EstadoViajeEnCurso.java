@@ -1,5 +1,6 @@
-package com.francomartin.find_your_guide.models;
+package com.francomartin.find_your_guide.models.viaje;
 
+import com.francomartin.find_your_guide.models.Usuario;
 import jakarta.persistence.Embeddable;
 import lombok.NoArgsConstructor;
 

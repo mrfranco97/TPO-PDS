@@ -1,6 +1,7 @@
 package com.francomartin.find_your_guide.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.francomartin.find_your_guide.models.reserva.Reserva;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -23,8 +24,7 @@ public class Turista extends Usuario {
     private Long id;
 
     @JsonIgnore
-    @OneToMany
-    @JoinColumn(name = "turista_id")
+    @OneToMany(mappedBy = "turista", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Reserva> reservas;
 
 }
