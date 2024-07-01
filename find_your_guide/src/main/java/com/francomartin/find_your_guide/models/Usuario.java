@@ -44,6 +44,7 @@ public abstract class Usuario implements IObservable {
     @OneToMany(mappedBy = "destinatario", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     private List<Calificacion> reseniasRecibidas = new ArrayList<>();
 
+    @JsonIgnore
     @OneToMany(mappedBy = "autor", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     private List<Calificacion> reseniasEnviadas = new ArrayList<>();
 

@@ -3,6 +3,7 @@ package com.francomartin.find_your_guide.factories;
 
 import com.francomartin.find_your_guide.dtos.GuiaDTO;
 import com.francomartin.find_your_guide.dtos.UsuarioDTO;
+import com.francomartin.find_your_guide.enums.Idioma;
 import com.francomartin.find_your_guide.models.*;
 import com.francomartin.find_your_guide.repositories.CiudadRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,9 +18,6 @@ public class UsuarioFactory {
 
     @Autowired
     private CiudadRepository ciudadRepository;
-
-
-
 
     public Usuario createUsuario(UsuarioDTO datos) {
                 var usuario = Turista.builder()
@@ -42,6 +40,9 @@ public class UsuarioFactory {
                 .map(ciudadNombre -> ciudadRepository.findByNombre(ciudadNombre).orElse(null))
                 .filter(ciudad -> ciudad != null)
                 .collect(Collectors.toList());
+        List<Idioma> idiomas =  datos.getIdiomas().stream()
+                .map(nombreIdioma -> Idioma.valueOf(String.valueOf(nombreIdioma).toUpperCase()))
+                .collect(Collectors.toList());
 
         var usuario = Guia.builder()
                 .nombre(datos.getNombre())
@@ -53,6 +54,7 @@ public class UsuarioFactory {
                 .fotoperfil(datos.getFotoperfil())
                 .licencia(datos.getLicencia())
                 .password(datos.getPassword())
+                .idiomas(idiomas)
                 .ciudades(ciudades)
                 .build();
         return usuario;

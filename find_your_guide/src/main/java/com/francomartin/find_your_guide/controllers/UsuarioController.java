@@ -4,10 +4,11 @@ package com.francomartin.find_your_guide.controllers;
 import com.francomartin.find_your_guide.dtos.GuiaDTO;
 import com.francomartin.find_your_guide.dtos.UsuarioDTO;
 import com.francomartin.find_your_guide.enums.AuthTipo;
+import com.francomartin.find_your_guide.enums.Idioma;
+import com.francomartin.find_your_guide.enums.TipoServicio;
 import com.francomartin.find_your_guide.factories.UsuarioFactory;
 import com.francomartin.find_your_guide.interfaces.IAuth;
 import com.francomartin.find_your_guide.models.Guia;
-import com.francomartin.find_your_guide.models.Usuario;
 import com.francomartin.find_your_guide.repositories.GuiaRepository;
 import com.francomartin.find_your_guide.repositories.TuristaRepository;
 import com.francomartin.find_your_guide.repositories.UsuarioRepository;
@@ -18,6 +19,8 @@ import com.francomartin.find_your_guide.services.auth.GoogleAuth;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.domain.Specification;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -86,6 +89,22 @@ public class UsuarioController {
             return ResponseEntity.ok(guias);
         }
     }
+/*
+    public ResponseEntity<List<Guia>> buscarGuia(
+            @RequestParam(required = false) String nombre,
+            @RequestParam(required = false) String apellido,
+            @RequestParam(required = false) String ciudad,
+            @RequestParam(required = false) Double puntaje,
+            @RequestParam(required = false) Idioma idioma,
+            @RequestParam(required = false) TipoServicio servicio
+    ) {
+
+
+        return guiaRepository.findAll(spec);
+
+
+        return new ResponseEntity<>(guias, HttpStatus.OK);
+    }*/
 /*
     @PostMapping("/login")
     public ResponseEntity<String> loginUsuario(@RequestBody UsuarioDTO usuarioDTO) {

@@ -2,6 +2,7 @@ package com.francomartin.find_your_guide.dtos;
 
 
 import com.francomartin.find_your_guide.enums.AuthTipo;
+import com.francomartin.find_your_guide.enums.Idioma;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -24,6 +25,8 @@ public class GuiaDTO {
     private String password;
     private  String licencia;
     private List<String> ciudades;
+    private List<Long>serviciosId;
+    private List<Idioma>idiomas;
     private AuthTipo authTipo;// Puede ser "FACEBOOK", "APPLE", "GOOGLE", "EMAIL"
 
 }
