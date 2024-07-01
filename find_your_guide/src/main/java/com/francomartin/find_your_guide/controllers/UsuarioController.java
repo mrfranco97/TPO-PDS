@@ -8,6 +8,7 @@ import com.francomartin.find_your_guide.enums.Idioma;
 import com.francomartin.find_your_guide.enums.TipoServicio;
 import com.francomartin.find_your_guide.factories.UsuarioFactory;
 import com.francomartin.find_your_guide.interfaces.IAuth;
+import com.francomartin.find_your_guide.models.Ciudad;
 import com.francomartin.find_your_guide.models.Guia;
 import com.francomartin.find_your_guide.repositories.GuiaRepository;
 import com.francomartin.find_your_guide.repositories.TuristaRepository;
@@ -89,23 +90,17 @@ public class UsuarioController {
             return ResponseEntity.ok(guias);
         }
     }
-/*
-    public ResponseEntity<List<Guia>> buscarGuia(
-            @RequestParam(required = false) String nombre,
-            @RequestParam(required = false) String apellido,
-            @RequestParam(required = false) String ciudad,
-            @RequestParam(required = false) Double puntaje,
-            @RequestParam(required = false) Idioma idioma,
-            @RequestParam(required = false) TipoServicio servicio
-    ) {
+    @GetMapping("/guias/parametros")
+    public List<Guia> buscarGuia(@RequestParam(required = false) String nombre,
+                                 @RequestParam(required = false) String apellido,
+                                 @RequestParam(required = false) String ciudad,
+                                 @RequestParam(required = false) Idioma idioma,
+                                 @RequestParam(required = false) Double puntaje,
+                                 @RequestParam(required = false) TipoServicio tipoServicio) {
+        return guiaRepository.buscarGuiasPorParametros(nombre,apellido,idioma);
 
-
-        return guiaRepository.findAll(spec);
-
-
-        return new ResponseEntity<>(guias, HttpStatus.OK);
-    }*/
-/*
+    }
+    /*
     @PostMapping("/login")
     public ResponseEntity<String> loginUsuario(@RequestBody UsuarioDTO usuarioDTO) {
         logger.info("Iniciando login de usuario");

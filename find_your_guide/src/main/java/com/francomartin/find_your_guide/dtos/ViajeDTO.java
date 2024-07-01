@@ -9,8 +9,7 @@ import java.util.List;
 public class ViajeDTO {
     private Long ciudad_id;
     private Long turista_id;
-    private Long guia_id;
-    private List<Long> servicios;
+    private Long servicios;
     private Date fechaInicio;
     private Date fechaFin;
     private String estado;

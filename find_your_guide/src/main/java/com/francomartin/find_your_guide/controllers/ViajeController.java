@@ -43,51 +43,12 @@ public class ViajeController {
         Optional<Viaje> viaje = viajeRepository.findById(id);
         return viaje.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
-
-    @GetMapping("/turista/{id}")
-    public List<Viaje> getViajeByTuristaId(@PathVariable Long id) {
-        return viajeRepository.findAllByTuristaId(id);
-    }
-
+/*
     @PostMapping
     public Viaje createViaje(@RequestBody ViajeDTO viaje) {
         Viaje newViaje = viajeFactory.createViaje(viaje);
         viajeRepository.save(newViaje);
         return newViaje;
-    }
+    }*/
 
-    @PutMapping("/{id}")
-    public ResponseEntity<Viaje> updateViaje(@PathVariable Long id, @RequestBody ViajeDTO viajeDetails) {
-        Optional<Viaje> viaje = viajeRepository.findById(id);
-        Optional<Guia> guia = guiaRepository.findById(viajeDetails.getGuia_id());
-        Optional<Ciudad> ciudad = ciudadRepository.findById(viajeDetails.getCiudad_id());
-        Optional<Turista> turista = turistaRepository.findById(viajeDetails.getTurista_id());
-        Optional<Reserva> reserva = reservaRepository.findById(viajeDetails.getReserva_id());
-
-        if (viaje.isPresent()) {
-            Viaje updatedViaje = viaje.get();
-            if (updatedViaje.validate(guia, ciudad, turista, reserva)) {
-                updatedViaje.setReserva(reserva.get());
-                updatedViaje.setCiudad(ciudad.get());
-                updatedViaje.setTurista(turista.get());
-                updatedViaje.setGuia(guia.get());
-                updatedViaje.setFechaInicio(viajeDetails.getFechaInicio());
-                updatedViaje.setFechaFin(viajeDetails.getFechaFin());
-                updatedViaje.cambiarEstado(viajeDetails.getEstado());
-                return ResponseEntity.ok(viajeRepository.save(updatedViaje));
-            }
-        }
-        return ResponseEntity.notFound().build();
-    }
-
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteViaje(@PathVariable Long id) {
-        Optional<Viaje> viaje = viajeRepository.findById(id);
-        if (viaje.isPresent()) {
-            viajeRepository.deleteById(id);
-            return ResponseEntity.noContent().build();
-        } else {
-            return ResponseEntity.notFound().build();
-        }
-    }
 }

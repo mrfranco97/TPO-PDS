@@ -29,13 +29,13 @@ public class ViajeFactory {
 
     @Autowired
     private ServicioRepository servicioRepository;
-
+/*
     public Viaje createViaje(ViajeDTO viajeDTO) {
         try {
             Viaje viaje = new Viaje();
             Optional<Ciudad> ciudad = ciudadRepository.findById(viajeDTO.getCiudad_id());
             Optional<Turista> turista = turistaRepository.findById(viajeDTO.getTurista_id());
-            Optional<Guia> guia = guiaRepository.findById(viajeDTO.getGuia_id());
+            //Optional<Guia> guia = guiaRepository.findById(viajeDTO.getGuia_id());
             Optional<Reserva> reserva = reservaRepository.findById(viajeDTO.getReserva_id());
 
             if (viaje.validate(guia, ciudad, turista, reserva)) {
@@ -55,6 +55,8 @@ public class ViajeFactory {
             e.printStackTrace();
             return null;
         }
-    }
+
+
+    }*/
 
 }

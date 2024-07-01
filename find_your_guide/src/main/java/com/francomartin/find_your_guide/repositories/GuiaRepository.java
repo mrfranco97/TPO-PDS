@@ -16,18 +16,19 @@ import java.util.Optional;
 public interface GuiaRepository extends JpaRepository<Guia, Long> {
 
     @Query("SELECT g FROM Guia g " +
-            "WHERE (:nombre IS NULL OR g.nombre LIKE %:nombre%) " +
-            "AND (:apellido IS NULL OR g.apellido LIKE %:apellido%) ")
-            //"AND (:ciudad IS NULL OR g.ciudad = :ciudad) " +
+            "WHERE (:nombre IS NULL OR g.nombre LIKE %:nombre%)" +
+            "AND (:apellido IS NULL OR g.apellido LIKE %:apellido%)"+
+            //"AND (:ciudad IS NULL OR g.ciudades = :ciudad)" +
+            "AND (:idioma IS NULL OR :idioma MEMBER OF g.idiomas) ")
             //"AND (:puntaje IS NULL OR g.puntaje >= :puntaje) " +
-            //"AND (:idioma IS NULL OR :idioma MEMBER OF g.idiomas) " +
-            //"AND (:servicio IS NULL OR :servicio = g.tipoServicio)")
+
+            //"AND (:servicio IS NULL OR :servicios = g.servicios)")
     List<Guia> buscarGuiasPorParametros(
             @Param("nombre") String nombre,
-            @Param("apellido") String apellido);
+            @Param("apellido") String apellido,
             //@Param("ciudad") String ciudad,
             //@Param("puntaje") Double puntaje,
-            //@Param("idioma") Idioma idioma,
+            @Param("idioma") Idioma idioma);
             //@Param("servicio") TipoServicio servicio);
 
 }
