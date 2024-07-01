@@ -16,6 +16,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
+@Builder
 @Table(name = "services")
 public class Servicio {
 
@@ -26,16 +27,13 @@ public class Servicio {
     @Column(name = "precio")
     private Double precio;
 
-    @Enumerated(EnumType.STRING)
-    @Column(name = "idioma")
-    private Idioma idioma;
-
     @Column(name = "nombre")
     private String nombre;
 
     @Enumerated(EnumType.ORDINAL)
     private TipoServicio tipo;
 
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "guia_id")
     private Guia guia;
