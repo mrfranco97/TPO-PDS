@@ -27,4 +27,8 @@ public class Turista extends Usuario {
     @OneToMany(mappedBy = "turista", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Reserva> reservas;
 
+    @JsonIgnore // Agregando esta anotación para evitar problemas de serialización bidireccional
+    @OneToMany(mappedBy = "turista", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Factura> facturas;
+
 }

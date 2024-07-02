@@ -54,7 +54,17 @@ public class Viaje {
     @JoinColumn(name = "servicio_id", nullable = false)
     private Servicio servicio;
 
+    public Double calcularSubtotal(){
+        return this.servicio.getPrecio() - this.reserva.getAniticipo();
+    }
 
+    public Double calcularComision(){
+        return this.servicio.getPrecio() * 0.1;
+    }
+
+    public Double calcularImporteFinal(){
+        return this.calcularSubtotal() + this.calcularComision();
+    }
 
 
 }

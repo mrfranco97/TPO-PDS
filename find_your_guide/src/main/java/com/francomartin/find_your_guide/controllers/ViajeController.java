@@ -41,4 +41,24 @@ public class ViajeController {
         return ResponseEntity.badRequest().build();
     }
 
+    @PutMapping("/{id}/finalizar")
+    public ResponseEntity<Viaje> createViaje(@RequestBody ViajeDTO viaje) {
+        Viaje newViaje = viajeFactory.createViaje(viaje);
+        if (newViaje != null) {
+            viajeRepository.save(newViaje);
+            return ResponseEntity.ok(newViaje);
+        }
+        return ResponseEntity.badRequest().build();
+    }
+
+    @PutMapping("/{id}/cancelar")
+    public ResponseEntity<Viaje> createViaje(@RequestBody ViajeDTO viaje) {
+        Viaje newViaje = viajeFactory.createViaje(viaje);
+        if (newViaje != null) {
+            viajeRepository.save(newViaje);
+            return ResponseEntity.ok(newViaje);
+        }
+        return ResponseEntity.badRequest().build();
+    }
+
 }
