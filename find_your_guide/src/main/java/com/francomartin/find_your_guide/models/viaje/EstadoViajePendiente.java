@@ -1,37 +1,19 @@
 package com.francomartin.find_your_guide.models.viaje;
 
-import com.francomartin.find_your_guide.models.Usuario;
-import jakarta.persistence.Embeddable;
+import com.francomartin.find_your_guide.interfaces.IEstadoViaje;
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
 
-@Embeddable
-public class EstadoViajePendiente extends EstadoViaje {
 
-    public EstadoViajePendiente(){
-        this.setName("pendiente");
+@NoArgsConstructor
+public class EstadoViajePendiente implements IEstadoViaje {
+    @Override
+    public void cancelar(Viaje contexto) {
+
     }
 
     @Override
-    public void reservar(Usuario usuario) {
-        Viaje viaje = this.getViaje();
-        viaje.cambiarEstado("cancelado");
-    }
+    public void finalizar(Viaje contexto) {
 
-    @Override
-    public void cancelar(Usuario user) {
-        Viaje viaje = this.getViaje();
-        viaje.cambiarEstado("cancelado");
     }
-
-    @Override
-    public void concretar(Usuario usuario) {
-        Viaje viaje = this.getViaje();
-        // EstadoViaje nuevoEstado = new
-    }
-
-    @Override
-    public void finalizar(Usuario usuario) {
-        Viaje viaje = this.getViaje();
-        // EstadoViaje nuevoEstado = new
-    }
-
 }

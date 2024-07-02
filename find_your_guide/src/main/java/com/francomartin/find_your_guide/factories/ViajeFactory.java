@@ -5,6 +5,7 @@ import com.francomartin.find_your_guide.dtos.ViajeDTO;
 import com.francomartin.find_your_guide.models.*;
 import com.francomartin.find_your_guide.models.reserva.EstadoReservaPendiente;
 import com.francomartin.find_your_guide.models.reserva.Reserva;
+import com.francomartin.find_your_guide.models.viaje.EstadoViajePendiente;
 import com.francomartin.find_your_guide.models.viaje.Viaje;
 import com.francomartin.find_your_guide.repositories.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,9 +27,10 @@ public class ViajeFactory {
 
     public Viaje createViaje(ViajeDTO viajeDTO) {
         Optional<Turista> autor = turistaRepository.findById(viajeDTO.getTuristaId());
-        //Ciudad ciudad = ciudadRepository.findById(viajeDTO.getCiudadId()).get();
+        Optional<Ciudad> ciudad = ciudadRepository.findById(viajeDTO.getCiudadId());
         Optional<Servicio> servicio = servicioRepository.findById(viajeDTO.getServicioId());
-        if(autor.isPresent() && servicio.isPresent()){
+        if (autor.isPresent() && servicio.isPresent() && ciudad.isPresent()) {
+
             var reserva = Reserva.builder()
                     .turista(autor.get())
                     .guia(servicio.get().getGuia())
@@ -37,9 +39,18 @@ public class ViajeFactory {
                     .estado("Pendiente")
                     .build();
             reservaRepository.save(reserva);
+            var viaje = Viaje.builder()
+                    .ciudad(ciudad.get())
+                    .fechaInicio(viajeDTO.getFechaInicio())
+                    .fechaFin(viajeDTO.getFechaFin())
+                    .servicio(servicio.get())
+                    .estadoString("Pendiente")
+                    .estado(new EstadoViajePendiente())
+                    .reserva(reserva)
+                    .build();
+            return viaje;
         }
 
         return null;
     }
-
 }

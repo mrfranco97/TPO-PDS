@@ -8,9 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-import java.util.Optional;
-
 @RestController
 @RequestMapping("/api/viajes")
 public class ViajeController {
@@ -35,10 +32,13 @@ public class ViajeController {
 
 
     @PostMapping
-    public Viaje createViaje(@RequestBody ViajeDTO viaje) {
+    public ResponseEntity<Viaje> createViaje(@RequestBody ViajeDTO viaje) {
         Viaje newViaje = viajeFactory.createViaje(viaje);
-        //viajeRepository.save(newViaje);
-        return null;
+        if (newViaje != null) {
+            viajeRepository.save(newViaje);
+            return ResponseEntity.ok(newViaje);
+        }
+        return ResponseEntity.badRequest().build();
     }
 
 }

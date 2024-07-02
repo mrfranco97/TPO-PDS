@@ -32,6 +32,7 @@ public class Reserva {
     @JoinColumn(name = "turista_id", nullable = false)
     private Turista turista;
 
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "guia_id", nullable = false)
     private Guia guia;
@@ -39,6 +40,7 @@ public class Reserva {
     @Column(name="estado")
     private String estado;
 
+    @JsonIgnore
     @Transient
     private IEstadoReserva estadoClass;
 

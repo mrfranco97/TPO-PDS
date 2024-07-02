@@ -1,5 +1,7 @@
 package com.francomartin.find_your_guide.models.viaje;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.francomartin.find_your_guide.interfaces.IEstadoViaje;
 import com.francomartin.find_your_guide.models.*;
 import com.francomartin.find_your_guide.models.reserva.Reserva;
 import jakarta.persistence.*;
@@ -24,11 +26,14 @@ public class Viaje {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @OneToOne
-    @JoinColumn(name = "reserva_id", nullable = false)
-    private Reserva reserva;
+    @Column(name="estado")
+    private String estadoString;
 
     @OneToOne
+    @JoinColumn(name = "reserva_id")
+    private Reserva reserva;
+
+    @ManyToOne
     @JoinColumn(name = "ciudad_id", nullable = false)
     private Ciudad ciudad;
 
@@ -40,36 +45,16 @@ public class Viaje {
     @Column(name = "fecha_fin", nullable = false)
     private Date fechaFin;
 
-    @Transient
-    private EstadoViaje estado;
 
-    @OneToOne
+    @JsonIgnore
+    @Transient
+    private IEstadoViaje estado;
+
+    @ManyToOne
+    @JoinColumn(name = "servicio_id", nullable = false)
     private Servicio servicio;
 
-    public void cambiarEstado(String estado) {
-        if (Objects.equals(estado, "cancelado")) {
-            EstadoViaje _estado = new EstadoViajeCancelado();
-            _estado.setViaje(this);
-            this.estado = _estado;
-        }
 
-        if (Objects.equals(estado, "pendiente")) {
-            EstadoViaje _estado = new EstadoViajePendiente();
-            _estado.setViaje(this);
-            this.estado = _estado;
-        }
-    }
 
-    public Boolean validate(
-            Optional<Guia> guia,
-            Optional<Ciudad> ciudad,
-            Optional<Turista> turista,
-            Optional<Reserva> reserva
-    ) {
-        return guia.isPresent()
-                && ciudad.isPresent()
-                && turista.isPresent()
-                && reserva.isPresent();
-    }
 
 }
