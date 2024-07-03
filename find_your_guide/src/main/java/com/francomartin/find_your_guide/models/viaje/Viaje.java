@@ -66,5 +66,15 @@ public class Viaje {
         return this.calcularSubtotal() + this.calcularComision();
     }
 
+    public Factura cancelar() {
+        Factura factura = this.getEstado().cancelar(this);
+        return factura;
+    };
+
+    public Factura finalizar() {
+        Factura factura = this.getEstado().finalizar(this);
+        return factura;
+    };
+
 
 }

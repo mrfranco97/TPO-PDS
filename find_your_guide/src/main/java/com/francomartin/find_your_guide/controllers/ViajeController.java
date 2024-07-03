@@ -49,29 +49,39 @@ public class ViajeController {
         return ResponseEntity.badRequest().build();
     }
 
-    @PutMapping("/finalizar")
-    public ResponseEntity<Factura> finalizarViaje(@RequestParam Long id) {
+    @PutMapping("/cancelar")
+    public ResponseEntity<?> cancelarViaje(@RequestParam Long id) {
         Optional<Viaje> request = viajeRepository.findById(id);
         if (request.isPresent()) {
             Viaje viaje = request.get();
-            EstadoViajeCancelado estado = new EstadoViajeCancelado();
-            viaje.setEstado(estado);
-            Factura factura = estado.cancelar(viaje);
-            viajeRepository.save(viaje);
-            facturaRepository.save(factura);
-            return ResponseEntity.ok(factura);
+            if(viaje.getEstadoString().equals("PENDIENTE")){
+                Factura factura = viaje.cancelar();
+                viajeRepository.save(viaje);
+                facturaRepository.save(factura);
+                return ResponseEntity.ok(factura);
+            }
+            else{
+                return ResponseEntity.badRequest().body("El viaje se encuentra en un estado definitivo y no puede ser cancelado");
+            }
         }
-        return ResponseEntity.badRequest().build();
+        return ResponseEntity.badRequest().body("No se encuentra viaje con el id " + id);
     }
-/*
-    @PutMapping("/{id}/cancelar")
-    public ResponseEntity<Viaje> createViaje(@RequestBody ViajeDTO viaje) {
-        Viaje newViaje = viajeFactory.createViaje(viaje);
-        if (newViaje != null) {
-            viajeRepository.save(newViaje);
-            return ResponseEntity.ok(newViaje);
+
+    @PutMapping("/finalizar")
+    public ResponseEntity<?> finalizarViaje(@RequestParam Long id) {
+        Optional<Viaje> request = viajeRepository.findById(id);
+        if (request.isPresent()) {
+            Viaje viaje = request.get();
+            if(viaje.getEstadoString().equals("PENDIENTE")){
+                Factura factura = viaje.finalizar();
+                viajeRepository.save(viaje);
+                facturaRepository.save(factura);
+                return ResponseEntity.ok(factura);
+            }
+            else{
+                return ResponseEntity.badRequest().body("El viaje se encuentra en un estado definitivo y no puede ser cancelado");
+            }
         }
-        return ResponseEntity.badRequest().build();
+        return ResponseEntity.badRequest().body("No se encuentra viaje con el id " + id);
+        }
     }
-*/
-}

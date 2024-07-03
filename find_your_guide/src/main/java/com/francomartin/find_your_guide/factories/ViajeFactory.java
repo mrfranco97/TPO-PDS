@@ -36,7 +36,7 @@ public class ViajeFactory {
                     .guia(servicio.get().getGuia())
                     .aniticipo(viajeDTO.getAnticipo())
                     .estadoClass(new EstadoReservaPendiente())
-                    .estado("Pendiente")
+                    .estado("PENDIENTE")
                     .build();
             reservaRepository.save(reserva);
             var viaje = Viaje.builder()
@@ -44,7 +44,7 @@ public class ViajeFactory {
                     .fechaInicio(viajeDTO.getFechaInicio())
                     .fechaFin(viajeDTO.getFechaFin())
                     .servicio(servicio.get())
-                    .estadoString("Pendiente")
+                    .estadoString("PENDIENTE")
                     .estado(new EstadoViajePendiente())
                     .reserva(reserva)
                     .build();

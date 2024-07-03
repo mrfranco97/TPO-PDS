@@ -13,14 +13,7 @@ import org.springframework.stereotype.Service;
 public class EstadoViajeCancelado implements IEstadoViaje {
     @Override
     public Factura cancelar(Viaje contexto) {
-        contexto.setEstadoString("CANCELADO");
-        var factura = Factura.builder()
-                .turista(contexto.getReserva().getTurista())
-                .viaje(contexto)
-                .estadoPago(EstadoPago.IMPAGO)
-                .total(contexto.calcularImporteFinal())
-                .build();
-        return factura;
+        return null;
     }
 
     @Override
