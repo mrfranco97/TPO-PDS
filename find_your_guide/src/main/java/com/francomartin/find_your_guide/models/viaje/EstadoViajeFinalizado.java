@@ -1,18 +1,19 @@
 package com.francomartin.find_your_guide.models.viaje;
 
 import com.francomartin.find_your_guide.interfaces.IEstadoViaje;
+import com.francomartin.find_your_guide.models.Factura;
 import lombok.NoArgsConstructor;
 
 
 @NoArgsConstructor
 public class EstadoViajeFinalizado implements IEstadoViaje {
     @Override
-    public void cancelar(Viaje contexto) {
-
+    public Factura cancelar(Viaje contexto) {
+        return null;
     }
 
     @Override
-    public void finalizar(Viaje contexto) {
-
+    public Factura finalizar(Viaje contexto) {
+        return null;
     }
 }
