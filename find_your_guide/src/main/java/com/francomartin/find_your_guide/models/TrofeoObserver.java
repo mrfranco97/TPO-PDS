@@ -8,7 +8,6 @@ public class TrofeoObserver implements Observer {
     @Override
     public void update(Usuario usuario) {
         if (usuario instanceof Guia) {
-            System.out.println("Activo Guia");
             int cantResenias=usuario.getReseniasRecibidas().size();
             if(cantResenias>=10){
                 double promedioCalificacion = usuario.getReseniasRecibidas().stream()
@@ -23,7 +22,6 @@ public class TrofeoObserver implements Observer {
         }
         else {
             int cantResenias = usuario.getReseniasEnviadas().size();
-            System.out.println("Activo Turista");
             if(cantResenias>=10){
                 usuario.setTrofeo("Trofeo a la reseña");
             }

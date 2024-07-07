@@ -51,13 +51,11 @@ public abstract class Usuario implements IObservable {
 
     public void agregarCalificacionRecibida(Calificacion calificacion) {
         reseniasRecibidas.add(calificacion);
-        System.out.println("Calificación añadida. Total de reseñas Recibidas: " + reseniasRecibidas.size());
         notificar(this);
     }
 
     public void agregarCalificacionEnviada(Calificacion calificacion) {
         reseniasEnviadas.add(calificacion);
-        System.out.println("Calificación añadida. Total de reseñas Enviadas: " + reseniasEnviadas.size());
         notificar(this);
     }
 

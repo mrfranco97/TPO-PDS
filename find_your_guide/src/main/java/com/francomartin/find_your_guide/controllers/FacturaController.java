@@ -19,14 +19,20 @@ public class FacturaController {
     @Autowired
     private FacturaRepository facturaRepository;
     @PutMapping
-    public ResponseEntity<Factura> pagar(@RequestParam Long id){
+    public ResponseEntity<?> pagar(@RequestParam Long id,@RequestParam Double monto){
         Optional<Factura> request = facturaRepository.findById(id);
         if(request.isPresent())
         {
             Factura factura=request.get();
-            factura.setEstadoPago(EstadoPago.PAGO);
-            facturaRepository.save(factura);
-            return ResponseEntity.ok(factura);
+            if (factura.getTotal()<=monto) {
+                factura.setEstadoPago(EstadoPago.PAGO);
+                facturaRepository.save(factura);
+                return ResponseEntity.ok(factura);
+            }
+            else {
+                Double montoRestante = factura.getTotal() - monto;
+                return ResponseEntity.ok().body("El monto no cubre la totalidad, restan: " + montoRestante);
+            }
         }
         return ResponseEntity.badRequest().build();
     }
