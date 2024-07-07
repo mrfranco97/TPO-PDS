@@ -1,14 +1,13 @@
 package com.francomartin.find_your_guide.interfaces;
 
 
-import com.francomartin.find_your_guide.models.Usuario;
+
+import com.francomartin.find_your_guide.models.Factura;
+import com.francomartin.find_your_guide.models.viaje.Viaje;
 
 public interface IEstadoViaje {
-    void reservar(Usuario usuario);
 
-    void cancelar(Usuario usuario);
+    Factura cancelar(Viaje contexto);
 
-    void concretar(Usuario usuario);
-
-    void finalizar(Usuario usuario);
+    Factura finalizar(Viaje contexto);
 }

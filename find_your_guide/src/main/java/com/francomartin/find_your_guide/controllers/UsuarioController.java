@@ -10,6 +10,7 @@ import com.francomartin.find_your_guide.factories.UsuarioFactory;
 import com.francomartin.find_your_guide.interfaces.IAuth;
 import com.francomartin.find_your_guide.models.Ciudad;
 import com.francomartin.find_your_guide.models.Guia;
+import com.francomartin.find_your_guide.models.viaje.Viaje;
 import com.francomartin.find_your_guide.repositories.GuiaRepository;
 import com.francomartin.find_your_guide.repositories.TuristaRepository;
 import com.francomartin.find_your_guide.repositories.UsuarioRepository;
@@ -91,13 +92,14 @@ public class UsuarioController {
         }
     }
     @GetMapping("/guias/parametros")
-    public List<Guia> buscarGuia(@RequestParam(required = false) String nombre,
-                                 @RequestParam(required = false) String apellido,
-                                 @RequestParam(required = false) String ciudad,
-                                 @RequestParam(required = false) Idioma idioma,
-                                 @RequestParam(required = false) Double puntaje,
-                                 @RequestParam(required = false) TipoServicio tipoServicio) {
-        return guiaRepository.buscarGuiasPorParametros(nombre,apellido,idioma);
+    public ResponseEntity<List<Guia>> buscarGuia(@RequestParam(required = false) String nombre,
+                                            @RequestParam(required = false) String apellido,
+                                            @RequestParam(required = false) String ciudad,
+                                            @RequestParam(required = false) Idioma idioma,
+                                            @RequestParam(required = false) Double puntaje,
+                                            @RequestParam(required = false) TipoServicio tipoServicio) {
+        //return guiaRepository.buscarGuiasPorParametros(nombre,apellido,idioma);
+        return ResponseEntity.ok(guiaRepository.buscarGuiasPorParametros(nombre,apellido,idioma));
 
     }
     /*

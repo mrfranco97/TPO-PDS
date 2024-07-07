@@ -1,14 +1,17 @@
 package com.francomartin.find_your_guide.controllers;
 
 import com.francomartin.find_your_guide.dtos.ViajeDTO;
+import com.francomartin.find_your_guide.enums.EstadoPago;
 import com.francomartin.find_your_guide.factories.ViajeFactory;
-import com.francomartin.find_your_guide.models.*;
+import com.francomartin.find_your_guide.models.Factura;
+import com.francomartin.find_your_guide.models.viaje.EstadoViajeCancelado;
+import com.francomartin.find_your_guide.models.viaje.EstadoViajeFinalizado;
+import com.francomartin.find_your_guide.models.viaje.Viaje;
 import com.francomartin.find_your_guide.repositories.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -33,22 +36,55 @@ public class ViajeController {
     @Autowired
     private ViajeFactory viajeFactory;
 
-    @GetMapping
-    public List<Viaje> getAllViajes() {
-        return viajeRepository.findAll();
-    }
+    @Autowired
+    private FacturaRepository facturaRepository;
 
-    @GetMapping("/info/{id}")
-    public ResponseEntity<Viaje> getViajeById(@PathVariable Long id) {
-        Optional<Viaje> viaje = viajeRepository.findById(id);
-        return viaje.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
-    }
-/*
+
     @PostMapping
-    public Viaje createViaje(@RequestBody ViajeDTO viaje) {
+    public ResponseEntity<Viaje> createViaje(@RequestBody ViajeDTO viaje) {
         Viaje newViaje = viajeFactory.createViaje(viaje);
-        viajeRepository.save(newViaje);
-        return newViaje;
-    }*/
+        if (newViaje != null) {
+            viajeRepository.save(newViaje);
+            return ResponseEntity.ok(newViaje);
+        }
+        return ResponseEntity.badRequest().build();
+    }
 
-}
+    @PutMapping("/cancelar")
+    public ResponseEntity<?> cancelarViaje(@RequestParam Long id) {
+        Optional<Viaje> request = viajeRepository.findById(id);
+        if (request.isPresent()) {
+            Viaje viaje = request.get();
+            if(viaje.getEstadoString().equals("PENDIENTE")){
+                viaje.setEstado(new EstadoViajeCancelado());
+                Factura factura = viaje.cancelar();
+                viajeRepository.save(viaje);
+                facturaRepository.save(factura);
+                return ResponseEntity.ok(factura);
+            }
+            else{
+                return ResponseEntity.badRequest().body("El viaje se encuentra en un estado definitivo y no puede ser cancelado");
+            }
+        }
+        return ResponseEntity.badRequest().body("No se encuentra viaje con el id " + id);
+    }
+
+    @PutMapping("/finalizar")
+    public ResponseEntity<?> finalizarViaje(@RequestParam Long id) {
+        Optional<Viaje> request = viajeRepository.findById(id);
+        if (request.isPresent()) {
+            Viaje viaje = request.get();
+            if(viaje.getEstadoString().equals("PENDIENTE")){
+                viaje.setEstado(new EstadoViajeFinalizado());
+                Factura factura = viaje.finalizar();
+                viajeRepository.save(viaje);
+                facturaRepository.save(factura);
+                return ResponseEntity.ok(factura);
+            }
+            else{
+                return ResponseEntity.badRequest().body("El viaje se encuentra en un estado definitivo y no puede ser cancelado");
+            }
+        }
+        return ResponseEntity.badRequest().body("No se encuentra viaje con el id " + id);
+        }
+    }
