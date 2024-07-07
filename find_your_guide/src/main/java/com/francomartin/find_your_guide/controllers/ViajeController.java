@@ -1,6 +1,7 @@
 package com.francomartin.find_your_guide.controllers;
 
 import com.francomartin.find_your_guide.dtos.ViajeDTO;
+import com.francomartin.find_your_guide.enums.EstadoPago;
 import com.francomartin.find_your_guide.factories.ViajeFactory;
 import com.francomartin.find_your_guide.models.Factura;
 import com.francomartin.find_your_guide.models.viaje.EstadoViajeCancelado;
@@ -55,6 +56,7 @@ public class ViajeController {
         if (request.isPresent()) {
             Viaje viaje = request.get();
             if(viaje.getEstadoString().equals("PENDIENTE")){
+                viaje.setEstado(new EstadoViajeCancelado());
                 Factura factura = viaje.cancelar();
                 viajeRepository.save(viaje);
                 facturaRepository.save(factura);
@@ -73,6 +75,7 @@ public class ViajeController {
         if (request.isPresent()) {
             Viaje viaje = request.get();
             if(viaje.getEstadoString().equals("PENDIENTE")){
+                viaje.setEstado(new EstadoViajeFinalizado());
                 Factura factura = viaje.finalizar();
                 viajeRepository.save(viaje);
                 facturaRepository.save(factura);
